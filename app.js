@@ -3,13 +3,14 @@ const express = require('express');
 const bodyParser = require("body-parser")
 const https = require("https")
 const mailchimp = require("@mailchimp/mailchimp_marketing")
+require('dotenv').config()
 //*CREATE A NEW EXPRESS APP
-const port = 3000
+const port = process.env.PORT
 const app = express()
 
 //*MAILCHIMP KEYS
 const mcServer = "us17"
-const mcApi = "742a7f39dfdb3299daca751b3b9f8279-us17"
+const mcApi = process.env.MCAPIKEY
 const mcListId = "3a61c50aa1"
 
 
@@ -57,7 +58,7 @@ app.post('/', (req, res) => {
         } else {
             res.sendFile(__dirname + "/failure.html")
         }
-        response.on("data", data => data)
+        response.on("data", data => console.log(JSON.parse(data)))
     })
 
     request.write(jsonData)
